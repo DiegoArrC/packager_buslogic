@@ -39,7 +39,7 @@
 -spec start() -> {ok, pid()} | ignore | {error, term()}.
 start() ->
     % riakc_pb_socket:start_link("rdb.fordark.org", 8087), % start riak, params are domain and port, NEED TO CHANGE THE DOMAIN NAME/PORT
-    gen_server:start_link({global, list_to_atom(atom_to_list(?MODULE) ++ "-" ++ atom_to_list(node()))}, ?MODULE, [], []).
+    gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
 %%--------------------------------------------------------------------
 %% @doc
 %% Starts a server using this module and registers the server using
@@ -70,7 +70,7 @@ stop() -> gen_server:call(?MODULE, stop).
 mark_delivered(Package_data) ->
     % Tuple requires two parameters: function name and JSON data
     % JSON data is now a map
-    gen_server:cast({global,list_to_atom(atom_to_list(?MODULE) ++ "-" ++ atom_to_list(node()))}, {mark_delivered, Package_data}).
+    gen_server:cast({global,?MODULE}, {mark_delivered, Package_data}).
 
 %%%===================================================================
 %%% gen_server callbacks
@@ -86,7 +86,7 @@ mark_delivered(Package_data) ->
 -spec init(term()) -> {ok, term()}|{ok, term(), number()}|ignore |{stop, term()}.
 init([]) ->
     io:format("delivered_server started ~n"),
-    riakc_pb_socket:start_link("143.198.57.177", 8087).
+    riakc_pb_socket:start_link("riri.diegoarrc.com", 8087).
 
 %%--------------------------------------------------------------------
 %% @private
